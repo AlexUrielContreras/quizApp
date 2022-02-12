@@ -11,42 +11,82 @@ var questionArr = ["Commonly used data types DO Not Include: ",
     "A very useful tool used durning devlopment and debugging for printing content to the debugger is: "
 ];
 
-var answersArr = [["Strings","Booleans","Alerts","Numbers"], 
-    ["Quotes","Curly Brackets","Parenthesis","Square Brackets"],
-    ["Numbers and Strings","Other Arrays","Booleans","All of The Above"],
-    ["Commas", "Curly Brackets","Quotes","Parenthesis"],
-    ["JavaScript","Terminal/Bash","For Loops","Console.log"]
+var answersArr = [["Strings", "Booleans", "Alerts", "Numbers"],
+["Quotes", "Curly Brackets", "Parenthesis", "Square Brackets"],
+["Numbers and Strings", "Other Arrays", "Booleans", "All of The Above"],
+["Commas", "Curly Brackets", "Quotes", "Parenthesis"],
+["JavaScript", "Terminal/Bash", "For Loops", "Console.log"]
 ];
-
+var solutionArr = ["Alerts", "Curly Brackets", "All of The Above", "Quotes", "Console.log"]
+var index = 0
+var timerId;
+var timeLeft = 75
 var countDown = function () {
-    var timeLeft = 75
 
-    var timer = setInterval(function () {
+    timerId = setInterval(function () {
         if (timeLeft > 0) {
             timerEl.textContent = timeLeft;
             timeLeft--
+
+            questions()
+
+
         }
-    }, 1000)
-    questions()
+        else {
+            clearInterval(timer)
+        }
+    }, 1000);
 };
 
 var questions = function () {
     buttonEl.remove()
     titleEl.remove()
-    for (var i=0;i<questionArr.length;i++) {
-        questionsEl.textContent = questionArr[0]
-        for (var i=0;i<answersArr[0].length;i++){    
-            var answerCon = document.createElement("div")
-            answerCon.classList.add("answer-div");
-            answersEl.appendChild(answerCon);
+    if (index < questionArr.length) {
 
-            var answerBlock = document.createElement("span")
-            answerBlock.textContent = answersArr[i][i];
-            answerCon.appendChild(answerBlock);
+
+        questionsEl.textContent = questionArr[index];
+        var li = "";
+        answersEl.innerHTML = "";
+        for (var i = 0; i < answersArr[index].length; i++) {
+            li = li + `
+            <li><button>${answersArr[index][i]}</button></li>
+
+        `
+
+        };
+        answersEl.innerHTML = `<ol>${li}</ol> 
+    <h3 class="message"></h3>`
+
+
+        var button = document.querySelectorAll("button");
+        var message = document.querySelector(".message")
+        for (var i = 0; i < button.length; i++) {
+            button[i].addEventListener("click", function () {
+                index++;
+
+                if (this.textContent === solutionArr[index - 1]) {
+                    message.innerHTML = "Correct!"
+                } else {
+                    message.innerHTML = "Wrong!"
+                    timeLeft -= 10
+                }
+                setTimeout(questions, 1000)
+
+
+
+
+            })
         }
-        
-    }
 
+    }
+    else {
+        clearInterval(timerId)
+        return;
+    }
+};
+
+var highScore = function () {
+    
 }
 
 
@@ -74,4 +114,6 @@ var questions = function () {
 
 
 
+
 buttonEl.addEventListener("click", countDown);
+

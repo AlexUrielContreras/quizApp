@@ -29,6 +29,18 @@ p {
 }
 
 .answer-div {
-    background-color: lightblue;
     margin: 10px 0;
+}
+
+button {
+    padding: 10px;
+    font-size: 25px;
+    border-radius: 8px;
+    border: 2px purple solid;
+    background-color: white;
+    width: 250px;
+}
+button:hover {
+    background-color: purple;
+    color: white;
 }
