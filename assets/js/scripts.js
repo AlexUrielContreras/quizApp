@@ -3,7 +3,7 @@ var timerEl = document.querySelector(".timer")
 var questionsEl = document.querySelector(".questions");
 var answersEl = document.querySelector(".answers")
 var titleEl = document.querySelector(".start-title")
-
+var highScoreEl = document.querySelector(".highscore")
 var questionArr = ["Commonly used data types DO Not Include: ",
     "The condition in an if / else statment is enclosed with ______ .",
     "Arrays in JavaScript can be use to store _____. ",
@@ -24,7 +24,7 @@ var timeLeft = 75
 var countDown = function () {
 
     timerId = setInterval(function () {
-        if (timeLeft > 0) {
+        if (timeLeft >= 0) {
             timerEl.textContent = timeLeft;
             timeLeft--
 
@@ -33,7 +33,8 @@ var countDown = function () {
 
         }
         else {
-            clearInterval(timer)
+            clearInterval(timerId)
+            endGame();
         }
     }, 1000);
 };
@@ -77,17 +78,37 @@ var questions = function () {
 
             })
         }
-
     }
     else {
         clearInterval(timerId)
+        endGame()
         return;
+
     }
 };
 
-var highScore = function () {
+var endGame = function () {
+    questionsEl.textContent = "All Done"
+    answersEl.textContent = `Your final score is ${timeLeft + 1}`;
+
+    var formEl = document.createElement("form")
+    answersEl.appendChild(formEl)
     
-}
+
+    var labelEl = document.createElement("label")
+    labelEl.textContent = "Enter Your initals: "
+
+    formEl.appendChild(labelEl)
+
+    var inputEl = document.createElement("input")
+    
+    formEl.appendChild(inputEl)
+
+    var submitEl = document.createElement("button")
+    submitEl.textContent = "submit"
+
+    formEl.appendChild(submitEl)
+};
 
 
 
@@ -116,4 +137,4 @@ var highScore = function () {
 
 
 buttonEl.addEventListener("click", countDown);
-
+//highScoreEl.addEventListener("click", endGame)

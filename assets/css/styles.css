@@ -44,3 +44,6 @@ button:hover {
     background-color: purple;
     color: white;
 }
+a {
+    text-decoration: none;
+}
