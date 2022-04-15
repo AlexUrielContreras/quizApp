@@ -79,14 +79,12 @@ let saveName = function(data) {
     localStorage.setItem("score2", JSON.stringify(data))
 }
 var endGame = function () {
+    let newTime = timeLeft + 1;
     questionsEl.textContent = "All Done"
-    answersEl.textContent = `Your final score is ${timeLeft + 1}`;
-
-    
+    answersEl.textContent = `Your Final Score is ${newTime}`;
 
     var labelEl = document.createElement("label")
     labelEl.textContent = "Enter Your initals: "
-
     answersEl.appendChild(labelEl)
 
     var inputEl = document.createElement("input")
@@ -96,22 +94,45 @@ var endGame = function () {
     var submitEl = document.createElement("button")
     submitEl.setAttribute("class", "sub-btn")
     submitEl.setAttribute("type", "button")
-    submitEl.textContent = "submit"
+    submitEl.textContent = "Submit"
     answersEl.appendChild(submitEl)
-    
+        
     submitEl.addEventListener("click", function(){
         let initialInput = document.querySelector(".initials").value;
         saveName(initialInput)
-        questionsEl.textContent = "Highscore"
+        savedIt = localStorage.getItem("score2");
+
+        questionsEl.textContent = "Highscore";
         answersEl.textContent = "";
-        savedIt = localStorage.getItem("score2")
+        
         for (var i=0;i<localStorage.length;i++){
-        let displayHighScore = document.createElement('span')  
-        let score = JSON.parse(savedIt) 
-        displayHighScore.textContent = score + " " + timeLeft;
-        answersEl.appendChild(displayHighScore)
-        }
+        
+        let displayHighScore = document.createElement('h3')
+        displayHighScore.setAttribute("class", "highscore-sec")  
+        
+        let score = JSON.parse(savedIt) ;
+        
+        displayHighScore.textContent = score + " " + newTime;
+        answersEl.appendChild(displayHighScore);
+        
+
+        let buttonDiv = document.createElement("div")
+        let clearEl = document.createElement("button");
+        let goBack = document.createElement("button");
+
+        clearEl.textContent = "Clear";
+        goBack.textContent = "Go Back";
+        
+        buttonDiv.appendChild(clearEl);
+        buttonDiv.appendChild(goBack);
+        answersEl.appendChild(buttonDiv);
+        
+        clearEl.addEventListener("click", function(){
+            displayHighScore.textContent = " ";
+        })
+    }
     });
+
     
 };
 
@@ -135,5 +156,4 @@ var endGame = function () {
 
 
 
-buttonEl.addEventListener("click", countDown());
-
+buttonEl.addEventListener("click", countDown);
