@@ -5,6 +5,7 @@ var answersEl = document.querySelector(".answers");
 var titleEl = document.querySelector(".start-title");
 var highScoreEl = document.querySelector(".highscore");
 
+
 var questionArr = ["Commonly used data types DO Not Include: ",
     "The condition in an if / else statment is enclosed with ______ .",
     "Arrays in JavaScript can be use to store _____. ",
@@ -36,7 +37,8 @@ var countDown = function () {
             endGame();
         }
     }, 1000);
-};var questions = function () {
+};
+var questions = function () {
     buttonEl.remove()
     titleEl.remove()
     if (index < questionArr.length) {
@@ -73,6 +75,9 @@ var countDown = function () {
 
     }
 };
+let saveName = function(data) {
+    localStorage.setItem("score2", JSON.stringify(data))
+}
 var endGame = function () {
     questionsEl.textContent = "All Done"
     answersEl.textContent = `Your final score is ${timeLeft + 1}`;
@@ -93,22 +98,21 @@ var endGame = function () {
     submitEl.setAttribute("type", "button")
     submitEl.textContent = "submit"
     answersEl.appendChild(submitEl)
-  
+    
     submitEl.addEventListener("click", function(){
         let initialInput = document.querySelector(".initials").value;
-        localStorage.setItem(JSON.stringify(initialInput),timeLeft + 1) 
+        saveName(initialInput)
         questionsEl.textContent = "Highscore"
         answersEl.textContent = "";
-        for (var i=0;i<localStorage.length;i++) {
-
-        
-        var displayHighscore = document.createElement("p")
-
-        displayHighscore.textContent = localStorage + " " + JSON.parse(localStorage.getItem(initialInput));
-
-        answersEl.appendChild(displayHighscore)
+        savedIt = localStorage.getItem("score2")
+        for (var i=0;i<localStorage.length;i++){
+        let displayHighScore = document.createElement('span')  
+        let score = JSON.parse(savedIt) 
+        displayHighScore.textContent = score + " " + timeLeft;
+        answersEl.appendChild(displayHighScore)
         }
     });
+    
 };
 
 
@@ -131,5 +135,5 @@ var endGame = function () {
 
 
 
-buttonEl.addEventListener("click", countDown);
+buttonEl.addEventListener("click", countDown());
 
